@@ -335,12 +335,20 @@ boolean isOponentAhead() {
 }
 
 boolean isOponentLeft() {
-    return (!isOponentRight() && (proxSensors.countsFrontWithLeftLeds() - 1 > proxSensors.countsFrontWithRightLeds() ||
+  isOponentLeft(true);
+}
+
+boolean isOponentLeft(boolean verifyOther) {
+    return ((!verifyOther || !isOponentRight(false)) && (proxSensors.countsFrontWithLeftLeds() - 1 > proxSensors.countsFrontWithRightLeds() ||
       proxSensors.countsLeftWithLeftLeds() > 2));
 }
 
-boolean isOponentRight() {
-    return (!isOponentLeft() && (proxSensors.countsFrontWithRightLeds() - 1 > proxSensors.countsFrontWithLeftLeds() ||
+boolean isOponentRight() { 
+  isOponentRight(true);
+}
+
+boolean isOponentRight(boolean verifyOther) {
+    return ((!verifyOther || !isOponentLeft(false)) && (proxSensors.countsFrontWithRightLeds() - 1 > proxSensors.countsFrontWithLeftLeds() ||
       proxSensors.countsRightWithRightLeds() > 2));
 }
 
