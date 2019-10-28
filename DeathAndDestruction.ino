@@ -83,7 +83,6 @@ unsigned long full_speed_start_time;
 
 // Sound Effects
 Zumo32U4Buzzer buzzer;
-const char sound_effect[] PROGMEM = "O4 T100 V15 L4 MS g12>c12>e12>G6>E12 ML>G2"; // "charge" melody
  // use V0 to suppress sound effect; v15 for max volume
 
  // Timing
@@ -219,6 +218,7 @@ void waitForButtonAndCountDown(bool restarting)
     buzzer.playNote(NOTE_G(3), 50, 12);
   }
   delay(1000);
+  lcd.print("Die!");
 
   // reset loop variables
   in_contact = false;  // 1 if contact made; 0 if no contact or contact lost
@@ -369,7 +369,6 @@ void on_contact_made()
   in_contact = true;
   contact_made_time = loop_start_time;
   setForwardSpeed(FullSpeed);
-  buzzer.playFromProgramSpace(sound_effect);
   ledRed(1);
 }
 
