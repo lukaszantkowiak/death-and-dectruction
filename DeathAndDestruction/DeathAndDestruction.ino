@@ -186,7 +186,7 @@ void setup()
   lsm303.getLogHeader();
 #endif
 
-  randomSeed((unsigned int) readBatteryMillivolts());
+  randomSeed((unsigned int) millis());
 
   // Uncomment if necessary to correct motor directions:
   //motors.flipLeftMotor(true);
@@ -205,6 +205,11 @@ void setup()
 
 void waitForButtonAndCountDown(bool restarting)
 {
+#ifdef LOG_SERIAL
+  Serial.print(restarting ? "Restarting Countdown" : "Starting Countdown");
+  Serial.println();
+#endif
+
   ledRed(0);
 
   ledYellow(1);
@@ -222,7 +227,7 @@ void waitForButtonAndCountDown(bool restarting)
     lcd.gotoXY(0, 0);
     lcd.print(i);
 
-    delay(990);
+    delay(1000);
     buzzer.playNote(NOTE_G(3), 50, 12);
   }
   lcd.gotoXY(0, 0);
@@ -241,8 +246,6 @@ void waitForButtonAndCountDown(bool restarting)
 
 boolean firstMoveDone = false;
 boolean ahead = false;
-boolean roundGo = false;
-unsigned long lastTime = 0;
 
 void loop()
 {
@@ -267,8 +270,6 @@ void loop()
     lcd.print(proxSensors.countsFrontWithRightLeds());
     lcd.print(proxSensors.countsRightWithRightLeds());
 
-    boolean randomBool = random(1,3) == 1;
-
   if ((_forwardSpeed == FullSpeed) && (
  - full_speed_start_time > FULL_SPEED_DURATION_LIMIT))
   {
@@ -276,7 +277,7 @@ void loop()
   }
 
   if (!firstMoveDone) {
-    if (randomBool) {
+    if (random(1,3) == 1) {
       motors.setSpeeds(-400, -100);
     } else {
       motors.setSpeeds(-100, -400);
@@ -309,52 +310,37 @@ void loop()
     // REAL MEAT
 
     if (check_for_contact()) {
-      roundGo = false;
       berserkerMode();
       lcd.print('C');
-    } else if (isOponentMuchLeft()) {
-      roundGo = false;
-      motors.setSpeeds(-400, 400);
-      lcd.print('M');
-    } else if (isOponentMuchRight()) {
-      roundGo = false;
-      motors.setSpeeds(400, -400);
-      lcd.print('N');
     } else if (isOponentLeft() && !ahead) {
-      roundGo = false;
       lcd.print('L');
       motors.setSpeeds(-400, 400);
       ledRed(0);
     } else if (isOponentRight() && !ahead) {
-      roundGo = false;
       lcd.print('R');
       motors.setSpeeds(400, -400);
       ledRed(0);
     } else if (isOponentLeft() && ahead) {
-      roundGo = false;
       lcd.print('L');
       motors.setSpeeds(100, 400);
     } else if (isOponentRight() && ahead) {
-      roundGo = false;
       lcd.print('R');
       motors.setSpeeds(400, 100);
     } else if (isOponentAhead() || ahead) {
-      roundGo = false;
       berserkerMode();
       lcd.print('A');
       ahead = true;
     } else {
-      if (!roundGo) {
-        lastTime = millis();
-        roundGo = true;
-        motors.setSpeeds(-400, 400);
-      } else if (millis() - lastTime > 1000) {
-        motors.setSpeeds(-300, 300);
-      }
-      
       ledRed(0);
       lcd.print('E');
+      buzzer.stopPlaying();
+      motors.setSpeeds(-400, 400);
+//      motors.setSpeeds(0, 0);
     }
+
+
+//    int speed = getForwardSpeed();
+//    motors.setSpeeds(speed, speed);
   }
 }
 
@@ -381,26 +367,6 @@ boolean isOponentRight(boolean verifyOther) {
     return (!verifyOther || !isOponentLeft(false))
     && (proxSensors.countsFrontWithRightLeds() - 1 > proxSensors.countsFrontWithLeftLeds()
     ||  proxSensors.countsRightWithRightLeds() - 1 > proxSensors.countsLeftWithLeftLeds());
-}
-
-boolean isOponentMuchLeft() {
-  return isOponentMuchLeft(true);
-}
-
-boolean isOponentMuchLeft(boolean verifyOther) {
-  return (!verifyOther || !isOponentRight(false))
-    && (proxSensors.countsFrontWithLeftLeds() < 3 && proxSensors.countsFrontWithRightLeds() < 3
-    &&  proxSensors.countsLeftWithLeftLeds() - 1 > proxSensors.countsRightWithRightLeds());
-}
-
-boolean isOponentMuchRight() { 
-  return isOponentMuchRight(true);
-}
-
-boolean isOponentMuchRight(boolean verifyOther) {
-    return (!verifyOther || !isOponentLeft(false))
-    && (proxSensors.countsFrontWithRightLeds() < 3 && proxSensors.countsFrontWithLeftLeds() < 3
-    &&  proxSensors.countsRightWithRightLeds() - 1 > proxSensors.countsLeftWithLeftLeds());
 }
 
 // execute turn
@@ -464,7 +430,7 @@ void berserkerMode()
   contact_made_time = loop_start_time;
 //  setForwardSpeed(FullSpeed);
   motors.setSpeeds(400, 400);
-  buzzer.playFromProgramSpace(fugue);
+  //buzzer.playFromProgramSpace(fugue);
   ledRed(1);
 }
 
