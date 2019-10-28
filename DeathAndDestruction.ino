@@ -375,6 +375,26 @@ boolean isOponentRight(boolean verifyOther) {
     ||  proxSensors.countsRightWithRightLeds() - 1 > proxSensors.countsLeftWithLeftLeds());
 }
 
+boolean isOponentMuchLeft() {
+  return isOponentMuchLeft(true);
+}
+
+boolean isOponentMuchLeft(boolean verifyOther) {
+  return (!verifyOther || !isOponentRight(false))
+    && (proxSensors.countsFrontWithLeftLeds() < 3 && proxSensors.countsFrontWithRightLeds() < 3
+    &&  proxSensors.countsLeftWithLeftLeds() - 1 > proxSensors.countsRightWithRightLeds());
+}
+
+boolean isOponentMuchRight() { 
+  return isOponentMuchRight(true);
+}
+
+boolean isOponentMuchRight(boolean verifyOther) {
+    return (!verifyOther || !isOponentLeft(false))
+    && (proxSensors.countsFrontWithRightLeds() < 3 && proxSensors.countsFrontWithLeftLeds() < 3
+    &&  proxSensors.countsRightWithRightLeds() - 1 > proxSensors.countsLeftWithLeftLeds());
+}
+
 // execute turn
 // direction:  RIGHT or LEFT
 // randomize: to improve searching
