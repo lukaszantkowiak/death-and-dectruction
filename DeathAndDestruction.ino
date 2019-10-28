@@ -205,11 +205,6 @@ void setup()
 
 void waitForButtonAndCountDown(bool restarting)
 {
-#ifdef LOG_SERIAL
-  Serial.print(restarting ? "Restarting Countdown" : "Starting Countdown");
-  Serial.println();
-#endif
-
   ledRed(0);
 
   ledYellow(1);
@@ -270,6 +265,13 @@ void loop()
     lcd.print(proxSensors.countsFrontWithRightLeds());
     lcd.print(proxSensors.countsRightWithRightLeds());
 
+    int sensorsSum = proxSensors.countsLeftWithLeftLeds() + proxSensors.countsFrontWithRightLeds()
+      + proxSensors.countsFrontWithLeftLeds() + proxSensors.countsLeftWithLeftLeds();
+    for(int i = 0; i < sensorsSum; i++) {
+      random(0,i);
+    }
+    boolean randomBool = random(1,3) == 1;
+
   if ((_forwardSpeed == FullSpeed) && (
  - full_speed_start_time > FULL_SPEED_DURATION_LIMIT))
   {
@@ -277,7 +279,7 @@ void loop()
   }
 
   if (!firstMoveDone) {
-    if (random(1,3) == 1) {
+    if (randomBool) {
       motors.setSpeeds(-400, -100);
     } else {
       motors.setSpeeds(-100, -400);
