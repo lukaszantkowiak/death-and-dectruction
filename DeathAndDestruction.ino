@@ -245,6 +245,7 @@ void waitForButtonAndCountDown(bool restarting)
 
 
 boolean firstMoveDone = false;
+boolean ahead = false;
 
 void loop()
 {
@@ -292,24 +293,27 @@ void loop()
     // if leftmost sensor detects line, reverse and turn to the right
     turn(RIGHT, true);
     lcd.print('B');
+    ahead = false;
   }
   else if (sensor_values[NUM_SENSORS - 1] < QTR_THRESHOLD)
   {
     // if rightmost sensor detects line, reverse and turn to the left
     turn(LEFT, true);
     lcd.print('B');
+    ahead = false;
   }
   else  // otherwise, go straight
   {
     if (check_for_contact()) {
       berserkerMode();
-    lcd.print('C');
-    } else if (isOponentAhead()) {
+      lcd.print('C');
+      ahead = false;
+    } else if (isOponentAhead() || ahead) {
       berserkerMode();
-    lcd.print('A');
+      lcd.print('A');
     }
     else {
-    lcd.print('E');
+      lcd.print('E');
       motors.setSpeeds(-150, 150);
     }
 //    int speed = getForwardSpeed();
