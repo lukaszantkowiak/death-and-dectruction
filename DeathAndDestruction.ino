@@ -426,7 +426,7 @@ void berserkerMode()
   contact_made_time = loop_start_time;
 //  setForwardSpeed(FullSpeed);
   motors.setSpeeds(400, 400);
-  buzzer.playFromProgramSpace(fugue);
+  //buzzer.playFromProgramSpace(fugue);
   ledRed(1);
 }
 
