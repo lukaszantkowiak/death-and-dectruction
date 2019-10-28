@@ -279,9 +279,9 @@ void loop()
   else  // otherwise, go straight
   {
     if (check_for_contact()) {
-      on_contact_made();
+      berserkerMode();
     } else if (isOponentAhead()) {
-      motors.setSpeeds(400, 400);
+      berserkerMode();
     }
     else {
       motors.setSpeeds(100, 400);
@@ -360,7 +360,7 @@ bool check_for_contact()
 }
 
 // sound horn and accelerate on contact -- fight or flight
-void on_contact_made()
+void berserkerMode()
 {
 #ifdef LOG_SERIAL
   Serial.print("contact made");
