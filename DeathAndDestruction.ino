@@ -265,10 +265,10 @@ void loop()
   proxSensors.read();
   
     lcd.gotoXY(0,1);
+    lcd.print(proxSensors.countsLeftWithLeftLeds());
     lcd.print(proxSensors.countsFrontWithLeftLeds());
-    lcd.print(' ');
     lcd.print(proxSensors.countsFrontWithRightLeds());
-    lcd.print(' ');
+    lcd.print(proxSensors.countsRightWithRightLeds());
 
   if ((_forwardSpeed == FullSpeed) && (
  - full_speed_start_time > FULL_SPEED_DURATION_LIMIT))
