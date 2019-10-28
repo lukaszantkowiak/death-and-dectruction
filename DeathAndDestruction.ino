@@ -83,7 +83,7 @@ unsigned long full_speed_start_time;
 
 // Sound Effects
 Zumo32U4Buzzer buzzer;
-char fugue[] PROGMEM =
+const char fugue[] PROGMEM =
   "! O5 L16 agafaea dac+adaea fa<aa<bac#a dac#adaea f"
   "O6 dcd<b-d<ad<g d<f+d<gd<ad<b- d<dd<ed<f+d<g d<f+d<gd<ad"
   "L8 MS <b-d<b-d MLe-<ge-<g MSc<ac<a ML d<fd<f O5 MS b-gb-g"
@@ -383,7 +383,7 @@ void berserkerMode()
   contact_made_time = loop_start_time;
   setForwardSpeed(FullSpeed);
   
-  buzzer.playFromProgramSpace(PROGMEM);
+ // buzzer.playFromProgramSpace(PROGMEM);
   ledRed(1);
 }
 
