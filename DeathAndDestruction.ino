@@ -278,7 +278,7 @@ void loop()
 
   if (!firstMoveDone) {
     motors.setSpeeds(-400, -100);
-    delay(200);
+    delay(400);
     motors.setSpeeds(-400, -400);
     delay(200);
    
