@@ -308,17 +308,17 @@ void loop()
     if (check_for_contact()) {
       berserkerMode();
       lcd.print('C');
-    } else if (isOponentAhead() || ahead) {
-      berserkerMode();
-      lcd.print('A');
     } else if (isOponentLeft()) {
       lcd.print('L');
       motors.setSpeeds(-150, 150);
     } else if (isOponentRight()) {
       lcd.print('R');
       motors.setSpeeds(150, -150);
-    }
-    else {
+    } else if (isOponentAhead() || ahead) {
+      berserkerMode();
+      lcd.print('A');
+      ahead = true;
+    } else {
       ledRed(0);
       lcd.print('E');
 //      motors.setSpeeds(-150, 150);
@@ -333,12 +333,7 @@ void loop()
 
 boolean isOponentAhead() {
     uint8_t sum = proxSensors.countsFrontWithRightLeds() + proxSensors.countsFrontWithLeftLeds();
-    
-     if (sum >= 6) {
-      ahead = true;
-     }
-
-     return sum >= 6;
+    return sum >= 6;
 }
 
 boolean isOponentLeft() {
