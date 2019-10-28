@@ -418,7 +418,7 @@ void berserkerMode()
 //  setForwardSpeed(FullSpeed);
   motors.setSpeeds(400, 400);
   
- // buzzer.playFromProgramSpace(PROGMEM);
+ buzzer.playFromProgramSpace(fugue);
   ledRed(1);
 }
 
