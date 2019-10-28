@@ -308,7 +308,6 @@ void loop()
     if (check_for_contact()) {
       berserkerMode();
       lcd.print('C');
-      ahead = false;
     } else if (isOponentAhead() || ahead) {
       berserkerMode();
       lcd.print('A');
@@ -328,7 +327,11 @@ void loop()
 boolean isOponentAhead() {
     uint8_t sum = proxSensors.countsFrontWithRightLeds() + proxSensors.countsFrontWithLeftLeds();
     
-    return sum >= 6;
+     if (sum >= 6) {
+      ahead = true;
+     }
+
+     return sum >= 6;
 }
 
 
