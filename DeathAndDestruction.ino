@@ -310,10 +310,12 @@ void loop()
       lcd.print('C');
     } else if (isOponentLeft()) {
       lcd.print('L');
-      motors.setSpeeds(-300, 300);
+      motors.setSpeeds(-400, 400);
+      ahead = false;
     } else if (isOponentRight()) {
       lcd.print('R');
-      motors.setSpeeds(300, -300);
+      motors.setSpeeds(400, -400);
+      ahead = false;
     } else if (isOponentAhead() || ahead) {
       berserkerMode();
       lcd.print('A');
@@ -321,7 +323,7 @@ void loop()
     } else {
       ledRed(0);
       lcd.print('E');
-      motors.setSpeeds(-300, 300);
+      motors.setSpeeds(-400, 400);
 //      motors.setSpeeds(0, 0);
     }
 
