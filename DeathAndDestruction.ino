@@ -241,7 +241,7 @@ void waitForButtonAndCountDown(bool restarting)
 
 boolean firstMoveDone = false;
 boolean ahead = false;
-boolean round = false;
+boolean roundGo = false;
 unsigned long lastTime = 0;
 
 void loop()
@@ -309,36 +309,36 @@ void loop()
     // REAL MEAT
 
     if (check_for_contact()) {
-      round = false;
+      roundGo = false;
       berserkerMode();
       lcd.print('C');
     } else if (isOponentLeft() && !ahead) {
-      round = false;
+      roundGo = false;
       lcd.print('L');
       motors.setSpeeds(-400, 400);
       ledRed(0);
     } else if (isOponentRight() && !ahead) {
-      round = false;
+      roundGo = false;
       lcd.print('R');
       motors.setSpeeds(400, -400);
       ledRed(0);
     } else if (isOponentLeft() && ahead) {
-      round = false;
+      roundGo = false;
       lcd.print('L');
       motors.setSpeeds(100, 400);
     } else if (isOponentRight() && ahead) {
-      round = false;
+      roundGo = false;
       lcd.print('R');
       motors.setSpeeds(400, 100);
     } else if (isOponentAhead() || ahead) {
-      round = false;
+      roundGo = false;
       berserkerMode();
       lcd.print('A');
       ahead = true;
     } else {
-      if (!round) {
+      if (!roundGo) {
         lastTime = millis();
-        round = true;
+        roundGo = true;
         motors.setSpeeds(-400, 400);
       } else if (millis() - lastTime > 1000) {
         motors.setSpeeds(-300, 300);
