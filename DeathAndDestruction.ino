@@ -334,6 +334,15 @@ boolean isOponentAhead() {
      return sum >= 6;
 }
 
+boolean isOponentLeft() {
+    return (!isOponentRight() && (proxSensors.countsFrontWithLeftLeds() - 1 > proxSensors.countsFrontWithRightLeds() ||
+      proxSensors.countsLeftWithLeftLeds() > 2));
+}
+
+boolean isOponentRight() {
+    return (!isOponentLeft() && (proxSensors.countsFrontWithRightLeds() - 1 > proxSensors.countsFrontWithLeftLeds() ||
+      proxSensors.countsRightWithRightLeds() > 2));
+}
 
 // execute turn
 // direction:  RIGHT or LEFT
