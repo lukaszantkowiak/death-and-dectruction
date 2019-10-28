@@ -222,7 +222,7 @@ void waitForButtonAndCountDown(bool restarting)
     lcd.gotoXY(0, 0);
     lcd.print(i);
 
-    delay(1000);
+    delay(990);
     buzzer.playNote(NOTE_G(3), 50, 12);
   }
   lcd.gotoXY(0, 0);
