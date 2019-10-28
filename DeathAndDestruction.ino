@@ -260,6 +260,14 @@ void loop()
   loop_start_time = millis();
   lsm303.readAcceleration(loop_start_time);
   sensors.read(sensor_values);
+  
+  proxSensors.read();
+  
+    lcd.gotoXY(0,1);
+    lcd.print(proxSensors.countsFrontWithLeftLeds());
+    lcd.print(' ');
+    lcd.print(proxSensors.countsFrontWithRightLeds());
+    lcd.print(' ');
 
   if ((_forwardSpeed == FullSpeed) && (
  - full_speed_start_time > FULL_SPEED_DURATION_LIMIT))
@@ -268,9 +276,9 @@ void loop()
   }
 
   if (!firstMoveDone) {
-   motors.setSpeeds(400, 100);
+   motors.setSpeeds(-400, -100);
    delay(200);
-   motors.setSpeeds(400, 400);
+   motors.setSpeeds(-400, -400);
    delay(200);
    
 
@@ -283,21 +291,26 @@ void loop()
   {
     // if leftmost sensor detects line, reverse and turn to the right
     turn(RIGHT, true);
+    lcd.print('B');
   }
   else if (sensor_values[NUM_SENSORS - 1] < QTR_THRESHOLD)
   {
     // if rightmost sensor detects line, reverse and turn to the left
     turn(LEFT, true);
+    lcd.print('B');
   }
   else  // otherwise, go straight
   {
     if (check_for_contact()) {
       berserkerMode();
+    lcd.print('C');
     } else if (isOponentAhead()) {
       berserkerMode();
+    lcd.print('A');
     }
     else {
-      motors.setSpeeds(-400, 400);
+    lcd.print('E');
+      motors.setSpeeds(-150, 150);
     }
 //    int speed = getForwardSpeed();
 //    motors.setSpeeds(speed, speed);
@@ -305,9 +318,8 @@ void loop()
 }
 
 boolean isOponentAhead() {
-    proxSensors.read();
+    
     uint8_t sum = proxSensors.countsFrontWithRightLeds() + proxSensors.countsFrontWithLeftLeds();
-    int8_t diff = proxSensors.countsFrontWithRightLeds() - proxSensors.countsFrontWithLeftLeds();
     
     return sum >= 6;
 }
