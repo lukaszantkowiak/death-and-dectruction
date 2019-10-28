@@ -61,6 +61,8 @@ Zumo32U4LineSensors sensors;
 // Motor Settings
 Zumo32U4Motors motors;
 
+Zumo32U4ProximitySensors proxSensors;
+
 // these might need to be tuned for different motor types
 #define REVERSE_SPEED     200 // 0 is stopped, 400 is full speed
 #define TURN_SPEED        200
@@ -161,6 +163,8 @@ void setForwardSpeed(ForwardSpeed speed);
 void setup()
 {
   sensors.initFiveSensors();
+  
+  proxSensors.initThreeSensors();
 
   // Initialize the Wire library and join the I2C bus as a master
   Wire.begin();
@@ -276,11 +280,23 @@ void loop()
   {
     if (check_for_contact()) {
       on_contact_made();
+    } else if (isOponentAhead()) {
+      motors.setSpeeds(400, 400);
+    }
+    else {
+      motors.setSpeeds(100, 400);
     }
 //    int speed = getForwardSpeed();
 //    motors.setSpeeds(speed, speed);
-   motors.setSpeeds(100, 400);
   }
+}
+
+boolean isOponentAhead() {
+    proxSensors.read();
+    uint8_t sum = proxSensors.countsFrontWithRightLeds() + proxSensors.countsFrontWithLeftLeds();
+    int8_t diff = proxSensors.countsFrontWithRightLeds() - proxSensors.countsFrontWithLeftLeds();
+    
+    return sum >= 4;
 }
 
 
