@@ -209,7 +209,7 @@ void waitForButtonAndCountDown(bool restarting)
 
   ledYellow(1);
   lcd.clear();
-  lcd.print(F("Press sth"));
+  lcd.print(F("Press A"));
 
   button.waitForButton();
 
