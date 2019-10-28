@@ -311,11 +311,18 @@ void loop()
     } else if (isOponentAhead() || ahead) {
       berserkerMode();
       lcd.print('A');
+    } else if (isOponentLeft()) {
+      lcd.print('L');
+      motors.setSpeeds(-150, 150);
+    } else if (isOponentRight()) {
+      lcd.print('R');
+      motors.setSpeeds(150, -150);
     }
     else {
       ledRed(0);
       lcd.print('E');
-      motors.setSpeeds(-150, 150);
+//      motors.setSpeeds(-150, 150);
+      motors.setSpeeds(0, 0);
     }
 
 
