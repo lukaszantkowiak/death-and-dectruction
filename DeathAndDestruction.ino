@@ -222,12 +222,15 @@ void waitForButtonAndCountDown(bool restarting)
   lcd.clear();
 
   // play audible countdown
-  for (int i = 0; i < 3; i++)
+  for (uint16_t i = 5; i > 0; i--)
   {
+    lcd.gotoXY(0, 0);
+    lcd.print(i);
+
     delay(1000);
     buzzer.playNote(NOTE_G(3), 50, 12);
   }
-  delay(1000);
+  lcd.gotoXY(0, 0);
   lcd.print("Die!");
 
   // reset loop variables
