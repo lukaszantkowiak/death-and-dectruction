@@ -315,12 +315,10 @@ void loop()
     } else if (isOponentMuchLeft()) {
       roundGo = false;
       motors.setSpeeds(-400, 400);
-      ahead = false;
       lcd.print('M');
     } else if (isOponentMuchRight()) {
       roundGo = false;
       motors.setSpeeds(400, -400);
-      ahead = false;
       lcd.print('N');
     } else if (isOponentLeft() && !ahead) {
       roundGo = false;
