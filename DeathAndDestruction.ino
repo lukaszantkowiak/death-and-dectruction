@@ -337,23 +337,23 @@ boolean isOponentAhead() {
 }
 
 boolean isOponentLeft() {
-  isOponentLeft(true);
+  return isOponentLeft(true);
 }
 
 boolean isOponentLeft(boolean verifyOther) {
-    return (!verifyOther || !isOponentRight(false))
-    && (proxSensors.countsFrontWithLeftLeds() > proxSensors.countsFrontWithRightLeds()
-    ||  proxSensors.countsLeftWithLeftLeds() > proxSensors.countsRightWithRightLeds());
+  return (!verifyOther || !isOponentRight(false))
+    && (proxSensors.countsFrontWithLeftLeds() - 1 > proxSensors.countsFrontWithRightLeds()
+    ||  proxSensors.countsLeftWithLeftLeds() - 1 > proxSensors.countsRightWithRightLeds());
 }
 
 boolean isOponentRight() { 
-  isOponentRight(true);
+  return isOponentRight(true);
 }
 
 boolean isOponentRight(boolean verifyOther) {
     return (!verifyOther || !isOponentLeft(false))
-    && (proxSensors.countsFrontWithRightLeds() > proxSensors.countsFrontWithLeftLeds()
-    ||  proxSensors.countsRightWithRightLeds() > proxSensors.countsLeftWithLeftLeds());
+    && (proxSensors.countsFrontWithRightLeds() - 1 > proxSensors.countsFrontWithLeftLeds()
+    ||  proxSensors.countsRightWithRightLeds() - 1 > proxSensors.countsLeftWithLeftLeds());
 }
 
 // execute turn
