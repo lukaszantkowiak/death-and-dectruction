@@ -212,7 +212,7 @@ void waitForButtonAndCountDown(bool restarting)
   lcd.clear();
 
   // play audible countdown
-  for (int i = 0; i < 4; i++)
+  for (int i = 0; i < 3; i++)
   {
     delay(1000);
     buzzer.playNote(NOTE_G(3), 50, 12);
