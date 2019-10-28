@@ -277,12 +277,11 @@ void loop()
   }
 
   if (!firstMoveDone) {
-   motors.setSpeeds(-400, -100);
-   delay(200);
-   motors.setSpeeds(-400, -400);
-   delay(200);
+    motors.setSpeeds(-400, -100);
+    delay(200);
+    motors.setSpeeds(-400, -400);
+    delay(200);
    
-
     firstMoveDone = true;
   }
 
@@ -302,8 +301,10 @@ void loop()
     lcd.print('B');
     ahead = false;
   }
-  else  // otherwise, go straight
+  else
   {
+    // REAL MEAT
+
     if (check_for_contact()) {
       berserkerMode();
       lcd.print('C');
@@ -313,16 +314,18 @@ void loop()
       lcd.print('A');
     }
     else {
+      ledRed(0);
       lcd.print('E');
       motors.setSpeeds(-150, 150);
     }
+
+
 //    int speed = getForwardSpeed();
 //    motors.setSpeeds(speed, speed);
   }
 }
 
 boolean isOponentAhead() {
-    
     uint8_t sum = proxSensors.countsFrontWithRightLeds() + proxSensors.countsFrontWithLeftLeds();
     
     return sum >= 6;
@@ -334,11 +337,6 @@ boolean isOponentAhead() {
 // randomize: to improve searching
 void turn(char direction, bool randomize)
 {
-#ifdef LOG_SERIAL
-  Serial.print("turning ...");
-  Serial.println();
-#endif
-
   // assume contact lost
   on_contact_lost();
 
@@ -391,10 +389,6 @@ bool check_for_contact()
 // sound horn and accelerate on contact -- fight or flight
 void berserkerMode()
 {
-#ifdef LOG_SERIAL
-  Serial.print("contact made");
-  Serial.println();
-#endif
   in_contact = true;
   contact_made_time = loop_start_time;
 //  setForwardSpeed(FullSpeed);
