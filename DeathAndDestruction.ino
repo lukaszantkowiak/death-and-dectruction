@@ -329,6 +329,7 @@ void loop()
     } else {
       ledRed(0);
       lcd.print('E');
+      buzzer.stopPlaying();
       motors.setSpeeds(-400, 400);
 //      motors.setSpeeds(0, 0);
     }
@@ -425,7 +426,7 @@ void berserkerMode()
   contact_made_time = loop_start_time;
 //  setForwardSpeed(FullSpeed);
   motors.setSpeeds(400, 400);
-
+  buzzer.playFromProgramSpace(fugue);
   ledRed(1);
 }
 
