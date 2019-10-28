@@ -277,7 +277,11 @@ void loop()
   }
 
   if (!firstMoveDone) {
-    motors.setSpeeds(-400, -100);
+    if (random(1,3) == 1) {
+      motors.setSpeeds(-400, -100);
+    } else {
+      motors.setSpeeds(-100, -400);
+    }
     delay(400);
     motors.setSpeeds(-400, -400);
     delay(200);
