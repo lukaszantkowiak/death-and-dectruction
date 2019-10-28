@@ -308,14 +308,20 @@ void loop()
     if (check_for_contact()) {
       berserkerMode();
       lcd.print('C');
-    } else if (isOponentLeft()) {
+    } else if (isOponentLeft() && !ahead) {
       lcd.print('L');
       motors.setSpeeds(-400, 400);
-      ahead = false;
-    } else if (isOponentRight()) {
+      ledRed(0);
+    } else if (isOponentRight() && !ahead) {
       lcd.print('R');
       motors.setSpeeds(400, -400);
-      ahead = false;
+      ledRed(0);
+    } else if (isOponentLeft() && ahead) {
+      lcd.print('L');
+      motors.setSpeeds(300, 400);
+    } else if (isOponentRight() && ahead) {
+      lcd.print('R');
+      motors.setSpeeds(400, 300);
     } else if (isOponentAhead() || ahead) {
       berserkerMode();
       lcd.print('A');
