@@ -36,7 +36,6 @@
  * the relevant code has been copied into this .ino file and does not need to be downloaded
  * separately.
  */
-
 #include <avr/pgmspace.h>
 #include <Wire.h>
 #include <Zumo32U4.h>
