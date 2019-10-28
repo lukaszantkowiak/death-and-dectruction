@@ -186,7 +186,7 @@ void setup()
   lsm303.getLogHeader();
 #endif
 
-  randomSeed((unsigned int) millis());
+  randomSeed((unsigned int) readBatteryMillivolts());
 
   // Uncomment if necessary to correct motor directions:
   //motors.flipLeftMotor(true);
@@ -209,7 +209,7 @@ void waitForButtonAndCountDown(bool restarting)
 
   ledYellow(1);
   lcd.clear();
-  lcd.print(F("Press A"));
+  lcd.print(F("Press sth"));
 
   button.waitForButton();
 
@@ -265,11 +265,6 @@ void loop()
     lcd.print(proxSensors.countsFrontWithRightLeds());
     lcd.print(proxSensors.countsRightWithRightLeds());
 
-    int sensorsSum = proxSensors.countsLeftWithLeftLeds() + proxSensors.countsFrontWithRightLeds()
-      + proxSensors.countsFrontWithLeftLeds() + proxSensors.countsLeftWithLeftLeds();
-    for(int i = 0; i < sensorsSum; i++) {
-      random(0,i);
-    }
     boolean randomBool = random(1,3) == 1;
 
   if ((_forwardSpeed == FullSpeed) && (
