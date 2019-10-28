@@ -346,11 +346,9 @@ boolean isOponentLeft() {
 }
 
 boolean isOponentLeft(boolean verifyOther) {
-    uint8_t bigger = 1;
-
     return (!verifyOther || !isOponentRight(false))
-    && (proxSensors.countsFrontWithLeftLeds() - bigger > proxSensors.countsFrontWithRightLeds()
-    ||  proxSensors.countsLeftWithLeftLeds() - bigger > proxSensors.countsRightWithRightLeds());
+    && (proxSensors.countsFrontWithLeftLeds() > proxSensors.countsFrontWithRightLeds()
+    ||  proxSensors.countsLeftWithLeftLeds() > proxSensors.countsRightWithRightLeds());
 }
 
 boolean isOponentRight() { 
@@ -358,11 +356,9 @@ boolean isOponentRight() {
 }
 
 boolean isOponentRight(boolean verifyOther) {
-    uint8_t bigger = 1;
-
     return (!verifyOther || !isOponentLeft(false))
-    && (proxSensors.countsFrontWithRightLeds() - bigger > proxSensors.countsFrontWithLeftLeds()
-    ||  proxSensors.countsRightWithRightLeds() - bigger > proxSensors.countsLeftWithLeftLeds());
+    && (proxSensors.countsFrontWithRightLeds() > proxSensors.countsFrontWithLeftLeds()
+    ||  proxSensors.countsRightWithRightLeds() > proxSensors.countsLeftWithLeftLeds());
 }
 
 // execute turn
