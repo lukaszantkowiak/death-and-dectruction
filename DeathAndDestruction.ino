@@ -268,10 +268,10 @@ void loop()
   }
 
   if (!firstMoveDone) {
-   motors.setSpeeds(-400, -100);
-   delay(500);
-   motors.setSpeeds(-400, -400);
-   delay(500);
+   motors.setSpeeds(400, 100);
+   delay(200);
+   motors.setSpeeds(400, 400);
+   delay(200);
    
 
     firstMoveDone = true;
@@ -297,7 +297,7 @@ void loop()
       berserkerMode();
     }
     else {
-      motors.setSpeeds(100, 400);
+      motors.setSpeeds(-400, 400);
     }
 //    int speed = getForwardSpeed();
 //    motors.setSpeeds(speed, speed);
@@ -309,7 +309,7 @@ boolean isOponentAhead() {
     uint8_t sum = proxSensors.countsFrontWithRightLeds() + proxSensors.countsFrontWithLeftLeds();
     int8_t diff = proxSensors.countsFrontWithRightLeds() - proxSensors.countsFrontWithLeftLeds();
     
-    return sum >= 4;
+    return sum >= 6;
 }
 
 
