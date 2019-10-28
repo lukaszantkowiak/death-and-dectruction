@@ -36,6 +36,7 @@
  * the relevant code has been copied into this .ino file and does not need to be downloaded
  * separately.
  */
+
 #include <avr/pgmspace.h>
 #include <Wire.h>
 #include <Zumo32U4.h>
@@ -59,7 +60,6 @@ Zumo32U4LineSensors sensors;
 
 // Motor Settings
 Zumo32U4Motors motors;
-
 
 // these might need to be tuned for different motor types
 #define REVERSE_SPEED     200 // 0 is stopped, 400 is full speed
@@ -229,7 +229,7 @@ void waitForButtonAndCountDown(bool restarting)
 
 
 
-
+boolean firstMoveDone = false;
 
 void loop()
 {
@@ -252,6 +252,18 @@ void loop()
     setForwardSpeed(SustainedSpeed);
   }
 
+  if (!firstMoveDone) {
+   motors.setSpeeds(400, 100);
+   delay(200);
+   motors.setSpeeds(400, 400);
+   delay(400);
+   
+
+    firstMoveDone = true;
+  }
+
+  
+
   if (sensor_values[0] < QTR_THRESHOLD)
   {
     // if leftmost sensor detects line, reverse and turn to the right
@@ -264,13 +276,12 @@ void loop()
   }
   else  // otherwise, go straight
   {
-
-   motors.setSpeeds(200, 400);
-//    if (check_for_contact()) {
-//      on_contact_made();
-//    }
+    if (check_for_contact()) {
+      on_contact_made();
+    }
 //    int speed = getForwardSpeed();
 //    motors.setSpeeds(speed, speed);
+   motors.setSpeeds(100, 400);
   }
 }
 
